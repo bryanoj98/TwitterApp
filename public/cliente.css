@@ -1,0 +1,23 @@
+.affix {
+   top: 20px;
+   z-index: 9999 !important;
+ }
+  .container-fluid{
+  background-color:#2196F3;
+  color:#fff;
+  height:200px;
+ }
+ #pagination{
+   text-align: center;
+ }
+ footer{
+   background-color:#ECE5CE;
+   color:black;
+   height:200px;
+   text-align: center;
+   padding-top: 80px;
+   font-size: 12pt;
+ }
+.col-sm-9{
+  border-style: outset;
+}

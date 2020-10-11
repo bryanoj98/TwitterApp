@@ -1,0 +1,22 @@
+{
+  "name": "twitterbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "servidor.js",
+  "scripts": {
+    "start": "node servidor.js",
+    "test": "node prueba.js"
+  },
+  "author": "bryan Perez",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "btoa": "^1.2.1",
+    "co": "^4.6.0",
+    "cookie-session": "^1.4.0",
+    "ejs": "^3.1.2",
+    "express": "^4.17.1",
+    "jssha": "^2.3.1",
+    "twitter": "^1.7.1"
+  }
+}

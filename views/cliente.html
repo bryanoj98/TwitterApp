@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Cliente Twitter</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="../public/cliente.css">
+  <link rel="shortcut icon" type=”image/png” href="/public/favicon.ico"/>
+</head>
+<body>
+  <div class="container-fluid">
+    <h1>Cliente Twitter</h1>
+    <h3>Herramienta para el facil control de tu cuenta</h3>
+    <p>Scroll this page to see how the left navigation menu behaves with data-spy="affix".</p>
+    <p><strong>The left menu sticks to the page when you have scrolled a specified amount of pixels.</strong></p>
+  </div>
+  <br>  
+  <div class="container">
+    <div class="row">
+      <nav class="col-sm-3">
+        <ul class="nav nav-pills nav-stacked" data-spy="affix" data-offset-top="205">
+          <li class="active" id="seguidores">
+            <a onclick="Seguidores();">Seguidores</a></li>
+          <li id="seguidos"><a onclick="Seguidos();">Seguidos</a></li>
+          <li id="nsiguen"><a onclick="Nsiguen();">Sigo / No me siguen</a></li>
+          <li id="nsiguen"><a href="/home/Salir">Cerrar Sesion</a></li>
+          <div class="alert alert-success" id="success-alert" hidden><strong>Good!</strong> Unfollow successful</div>
+
+        </ul>
+      </nav>
+      <div class="col-sm-9">
+        <br>
+        <ul class = "media-list" id="dataList"></ul>
+      </div>
+    </div>
+  </div>
+<script src="../public/cliente.js"></script>
+</body>
+<footer>
+ © Bryan Perez
+ Contacto: bryanoj98@gmail.com
+</footer>
+</html>

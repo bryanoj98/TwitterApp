@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Cliente Twitter</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Favicons -->
+  <link href="../../public/favicon.ico" rel="icon">
+  <!-- <link href="../public/img/apple-touch-icon.png" rel="apple-touch-icon"> -->
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,600,700,700i|Montserrat:300,400,500,600,700"
+    rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <link href="../../public/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- ../public/libraries CSS Files -->
+  <link href="../public/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="../public/lib/animate/animate.min.css" rel="stylesheet">
+  <link href="../public/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="../public/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="../public/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="../public/css/style_lista.css" rel="stylesheet">
+
+  <!-- =======================================================
+    Theme Name: Rapid
+    Theme URL: https://bootstrapmade.com/rapid-multipurpose-bootstrap-business-template/
+    Author: BootstrapMade.com
+    License: https://bootstrapmade.com/license/
+  ======================================================= -->
+</head>
+
+<body>
+  <!--==========================
+  Header
+  ============================-->
+  <header id="header">
+    <div class="container">
+
+      <div class="logo float-left">
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <h1 class="text-light"><a href="#intro" class="scrollto"><span>Rapid</span></a></h1>
+        <!-- <a href="#header" class="scrollto"><../public/img src="../public/img/logo.png" alt="" class="../public/img-fluid"></a> -->
+      </div>
+
+      <nav class="main-nav float-right d-none d-lg-block">
+        <ul>
+          <li><a href="#services">Cerrar Sesión</a></li>
+        </ul>
+      </nav><!-- .main-nav -->
+
+    </div>
+  </header><!-- #header -->
+  <!--==========================
+      Frequently Asked Questions Section
+    ============================-->
+  <section id="faq" class="wow fadeInUp">
+    <header class="section-header">
+      <h3>Seguidos / Seguidores / etc</h3>
+      <!-- <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque</p> -->
+    </header>
+    <div class="container">
+
+      <div class="row">
+        <div class="col-lg-4">
+          <ul id="faqlist1" class="wow fadeInUp">
+            <li>
+              <a href="#" class="btn">Seguidores</a>
+            </li>
+            <li><a href="#" class="btn">Seguidos</a></li>
+            <li><a href="#" class="btn">Sigo / No me siguen</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-8">
+
+          <ul id="faqlist" class="wow fadeInUp">
+
+            <!-- prueba -->
+            <!-- ERRORES FALTA DE Javascript QUE CREE DE ESTA FORMA -->
+            <li class="media">
+              <div class="media-left">
+                <img src="https://pbs.twimg.com/profile_images/1252643868929077249/f0UGUHpC_normal.jpg">
+              </div>
+              <div class="media-body">
+                <p class="media-heading">Vii bahamon</p>@ViiBahamon <span class="badge badge-secondary">Te sigue</span>
+              </div>
+              <div class="media-right"><button type="button" class="btn btn-danger"
+                  onclick="NoFollow(&quot;ViiBahamon&quot;)">Unfollow</button></div>
+            </li>
+
+            <li class="media">
+              <div class="media-left">
+                <img src="https://pbs.twimg.com/profile_images/1252643868929077249/f0UGUHpC_normal.jpg"
+                  class="img-rounded">
+              </div>
+              <div class="media-body">
+                <p class="media-heading">Vii bahamon</p>@ViiBahamon <span class="badge badge-secondary">Te sigue</span>
+              </div>
+              <div class="media-right"><button type="button" class="btn btn-danger"
+                  onclick="NoFollow(&quot;ViiBahamon&quot;)">Unfollow</button></div>
+            </li>
+            <li class="media">
+              <div class="media-left">
+                <img src="https://pbs.twimg.com/profile_images/1240855160781504518/YmtHOWRO_normal.jpg"
+                  class="img-rounded">
+              </div>
+              <div class="media-body">
+                <p class="media-heading">Valentina Torres</p>@_ValTorres_ <span class="badge badge-secondary">Te
+                  sigue</span>
+              </div>
+              <div class="media-right"><button type="button" class="btn btn-danger"
+                  onclick="NoFollow(&quot;_ValTorres_&quot;)">Unfollow</button></div>
+            </li>
+            <nav id="pagination">
+              <ul class="pagination">
+                <li class="page-item disabled" onclick=Antes(1,"0")><a class="page-link">Previous</a></li>
+                <li class="page-item"><a class="page-link">...</a></li>
+                <li class="page-item"><a class="page-link" onclick=Despues(1,"1665041351152223509")>Next</a></li>
+              </ul>
+            </nav>
+            <!-- fin prueba -->
+
+          </ul>
+
+        </div>
+
+
+
+      </div>
+
+    </div>
+  </section><!-- #faq -->
+
+
+  <!--==========================
+    Footer
+  ============================-->
+
+  <footer id="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 text-lg-left text-center">
+          <div class="copyright">
+            Aplicación creada por <strong>Bryan Perez</strong>.
+          </div>
+          <div class="credits">
+            Correo de contacto <strong>bryanoj98@gmail.com</strong>
+          </div>
+        </div>
+        <div class="col-lg-6 text-lg-right text-center pt-2 pt-lg-0">
+          <div class="copyright">
+            &copy; Copyright <strong>Rapid</strong>. All Rights Reserved
+          </div>
+          <div class="credits">
+            Template by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+  <!-- Uncomment below i you want to use a preloader -->
+  <!-- <div id="preloader"></div> -->
+
+  <!-- JavaScript ../public/libraries -->
+  <script src="../public/lib/jquery/jquery.min.js"></script>
+  <script src="../public/lib/jquery/jquery-migrate.min.js"></script>
+  <script src="../public/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../public/lib/easing/easing.min.js"></script>
+  <script src="../public/lib/mobile-nav/mobile-nav.js"></script>
+  <script src="../public/lib/wow/wow.min.js"></script>
+  <script src="../public/lib/waypoints/waypoints.min.js"></script>
+  <script src="../public/lib/counterup/counterup.min.js"></script>
+  <script src="../public/lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="../public/lib/isotope/isotope.pkgd.min.js"></script>
+  <script src="../public/lib/lightbox/js/lightbox.min.js"></script>
+
+  <!-- Template Main Javascript File -->
+  <script src="../public/js/Usuario_a.js"></script>
+
+</body>
+
+</html>
