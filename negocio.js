@@ -63,8 +63,8 @@ function Rate_limit(callback) { // Nose si poner user_id, por que es limite es d
 
 //QUIENES ME SIGUEN
 function Seguidores(page,user_id, callback) {
-  // T.options.request_options.oauth.token = user_id.access_token_key; 
-  // T.options.request_options.oauth.token_secret = user_id.access_token_secret;
+  T.options.request_options.oauth.token = user_id.access_token_key; 
+  T.options.request_options.oauth.token_secret = user_id.access_token_secret;
 
   const params = {
     cursor: page,
@@ -107,8 +107,8 @@ function Seguidores(page,user_id, callback) {
   function Seguidos_n(page, user_id, callback, n_users) {
 
   //AQUIENES YO SIGO
-  // T.options.request_options.oauth.token = user_id.access_token_key;
-  // T.options.request_options.oauth.token_secret = user_id.access_token_secret;
+  T.options.request_options.oauth.token = user_id.access_token_key;
+  T.options.request_options.oauth.token_secret = user_id.access_token_secret;
   const params = {
     cursor: page,
     include_followed_by: 1,
@@ -173,8 +173,8 @@ function Nosiguen(page,user_id,callback) {    //Devolver tiempo de esperar de ra
 
   console.log(page);
   var tem_page=page;
-  // T.options.request_options.oauth.token = user_id.access_token_key;
-  // T.options.request_options.oauth.token_secret = user_id.access_token_secret;
+  T.options.request_options.oauth.token = user_id.access_token_key;
+  T.options.request_options.oauth.token_secret = user_id.access_token_secret;
   co(function* () {
     var Antersigo = 1;     
     var Pagsigo = tem_page; 
@@ -215,8 +215,8 @@ function Nosiguen(page,user_id,callback) {    //Devolver tiempo de esperar de ra
 }
 
 function Unfollower(user_id,id, callback) {
-  // T.options.request_options.oauth.token = user_id.access_token_key;
-  // T.options.request_options.oauth.token_secret = user_id.access_token_secret;
+  T.options.request_options.oauth.token = user_id.access_token_key;
+  T.options.request_options.oauth.token_secret = user_id.access_token_secret;
   const params = {
     screen_name: id
   };
