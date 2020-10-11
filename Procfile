@@ -1,1 +1,1 @@
-web: node prueba.js
+web: node servidor.js
