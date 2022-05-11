@@ -1,7 +1,6 @@
 const Twitter = require("twitter");
 const config = require("./config.js");
 const co = require("co");
-// require('request').debug = true
 const T = new Twitter(config);
 
 
@@ -24,7 +23,7 @@ function ObjetoPagina(Anterior, Siguiente) {
       this.Siguiente = Siguiente;
     }
   }
-  // var a=new Pagina()
+
   return new Pagina(Anterior, Siguiente);
 }
 function ObjetoRateLimit(limit_seguidos, limit_seguidores) {
@@ -34,7 +33,7 @@ function ObjetoRateLimit(limit_seguidos, limit_seguidores) {
       this.limite_seguidores = limit_seguidores;
     }
   }
-  // var a=new Pagina()
+
   return new RateLimit(limit_seguidos, limit_seguidores);
 }
 function Rate_limit(callback) { // Nose si poner user_id, por que es limite es de la aplicacion
@@ -45,7 +44,7 @@ function Rate_limit(callback) { // Nose si poner user_id, por que es limite es d
     skip_status: 1
   };
 
-  T.get("application/rate_limit_status", params_rate, (err, data, response) => { //no entra :(
+  T.get("application/rate_limit_status", params_rate, (err, data, response) => { 
     if (err) {
       return console.log(err);
     }
@@ -53,12 +52,9 @@ function Rate_limit(callback) { // Nose si poner user_id, por que es limite es d
     var limit_seguidos = data.resources.friends["/friends/list"].remaining;
     console.log("valores Rate: ");
     const rate = ObjetoRateLimit(limit_seguidos, limit_seguidores);
-    // console.log(limit_seguidos);
-    // console.log(limit_seguidores);    
     callback(null, rate);
 
   });
-  // fin
 }
 
 //QUIENES ME SIGUEN
@@ -79,31 +75,30 @@ function Seguidores(page,user_id, callback) {
       return console.log(err);
     }
     console.log("Seguidores");
-    // console.log(data.users[4])
 
     console.log(data.users.length);
     var ListaUsers = [];
-    for (let i = 0; i < data.users.length; i++) {
+
+    data.users.forEach( function(valor) {
       const user = new ObjetoUsuario();
-      user.Id = data.users[i].id_str;
-      user.Aname = data.users[i].screen_name;
-      user.Username = data.users[i].name;
-      user.Imagen = data.users[i].profile_image_url_https;
-      user.followed_by = data.users[i].followed_by;
+      
+      user.Id = valor.id_str;
+      user.Aname = valor.screen_name;
+      user.Username = valor.name;
+      user.Imagen = valor.profile_image_url_https;
+      user.followed_by = valor.followed_by;
       ListaUsers.push(user);
-      // console.log(data.users[i].screen_name +' '+ data.users[i].id_str);
-    }
-    // console.log(data);
+    });
+    
     const pagi = new ObjetoPagina(
       data.previous_cursor_str,
       data.next_cursor_str
     );
-    // console.log(pagi)
+
     ListaUsers.push(pagi);
     callback(null, ListaUsers);
   });
 }
-// function Seguidos(page, user_id, callback) {
   function Seguidos_n(page, user_id, callback, n_users) {
 
   //AQUIENES YO SIGO
@@ -128,19 +123,18 @@ function Seguidores(page,user_id, callback) {
 
     console.log(data.users.length);
     var ListaUsers = [];
-    for (let i = 0; i < data.users.length; i++) {
+
+    data.users.forEach( function(valor) {
       const user = new ObjetoUsuario();
       
-      user.Id = data.users[i].id_str;
-      user.Aname = data.users[i].screen_name;
-      user.Username = data.users[i].name;
-      user.Imagen = data.users[i].profile_image_url_https;
-      user.followed_by = data.users[i].followed_by;
+      user.Id = valor.id_str;
+      user.Aname = valor.screen_name;
+      user.Username = valor.name;
+      user.Imagen = valor.profile_image_url_https;
+      user.followed_by = valor.followed_by;
       ListaUsers.push(user);
-      // console.log(data.users[i].screen_name +' '+ data.users[i].id_str);
-    }
-    // console.log(data.users[3]);
-    // console.log(data.users[3].followed_by);
+    });
+
     const pagi = new ObjetoPagina(
       data.previous_cursor_str,
       data.next_cursor_str
@@ -168,6 +162,7 @@ function thunkSeguidos(page, user_id,n_users) {      //Modificar nombre value po
     Seguidos_n(page, user_id, callback, n_users);  
   };
 }
+
 function Nosiguen(page,user_id,callback) {    //Devolver tiempo de esperar de rate_limit?
   console.log("entra no me siguen /hay en page:");
 
@@ -184,30 +179,30 @@ function Nosiguen(page,user_id,callback) {    //Devolver tiempo de esperar de ra
     var ListaUsers = [];
     var rate = yield thunkRate();
     console.log(rate);
-    while (ListaUsers.length < 15 && rate.limite_seguidos > 1 && Pagsigo != 0) //& Pagsigo!=0  
+    while (ListaUsers.length < 10 && rate.limite_seguidos > 1 && Pagsigo != 0) 
     {    
-      var sigo = yield thunkSeguidos(Pagsigo, user_id,100);  
+      var sigo = yield thunkSeguidos(Pagsigo, user_id,200);
       Pagsigo = sigo[sigo.length - 1].Siguiente;
       Antersigo = sigo[sigo.length - 1].Anterior;
-      for (let i = 0; i < sigo.length-1; i++) {
-        if (sigo[i].followed_by == false) ListaUsers.push(sigo[i])
-      }      
-      for (let i = 0; i < ListaUsers.length; i++) { // Solo para mostrar
 
-        console.log(ListaUsers[i].Aname);
-      }
+      sigo.forEach( function(valor) {
+        if (valor.followed_by == false) ListaUsers.push(valor);
+      });
+
+      ListaUsers.forEach( function(valor) { // Solo para mostrar
+        console.log(valor.Aname);
+      });
       console.log(ListaUsers.length);
       rate = yield thunkRate();
       console.log(rate);
 
     }
     
-  //   console.log(ListaUsers.length);
     const pagi = new ObjetoPagina(
       Antersigo,
       Pagsigo
     );
-    // console.log(pagi);
+
     ListaUsers.push(pagi);
     callback(null, ListaUsers);
   });
