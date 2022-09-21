@@ -35,7 +35,7 @@ router.post("/Seguidos", function(req, res) {
     }
   });
 });
-router.get("/Nosiguen", function(req, res) {
+router.post("/Nosiguen", function(req, res) {
   console.log("Page: ",req.body.Page);
   console.log("Entrooo a router /Nosiguen");
   tweet.Nosiguen(req.body.Page, req.session.user_id,function(error, data) {
