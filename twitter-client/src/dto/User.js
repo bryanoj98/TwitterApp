@@ -1,3 +1,3 @@
-exports.user = function(){
+exports.user = function () {
 
-};
+}
