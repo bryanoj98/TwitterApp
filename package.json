@@ -1,16 +1,16 @@
 {
-  "name": "clientwitter",
-  "version": "1.0.0",
+  "name": "twitter-client",
+  "version": "2.0.0",
   "description": "",
   "main": "servidor.js",
   "scripts": {
     "postinstall": "subpkg install",
-    "start": "node servidor.js",
-    "test": "node prueba.js",
+    "start": "subpkg start",
+    "test": "subpkg test",
     "lint": "subpkg run lint",
     "lint:fix": "subpkg run lint:fix"
   },
-  "author": "bryan Perez",
+  "author": "Bryan Perez",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -23,7 +23,7 @@
     "twitter": "^1.7.1"
   },
   "subPackages": [
-    "clientwitter"
+    "twitter-client"
   ],
   "devDependencies": {
     "subpackage": "^1.1.0",
