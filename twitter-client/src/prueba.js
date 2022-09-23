@@ -6,10 +6,10 @@ app.use(body_parser.json());
 app.use(body_parser.urlencoded({ extended: true }));
 var request = require("request");
 
-var tweet = require("./negocio_test.js");
+var tweet = require("./service/negocio_test.js");
 
 const Twitter = require("twitter"); //BORRRRRAAR
-const config = require("./config_test.js"); //BORRRRRAAR
+const config = require("./config/config_test.js"); //BORRRRRAAR
 const T = new Twitter(config); //BORRRRRAAR
 
 

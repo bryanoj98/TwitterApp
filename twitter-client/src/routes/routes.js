@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-var tweet = require("./negocio.js");
+var tweet = require("../service/negocio.js");
 var router = express.Router();
 
 router.get("/", function(req, res) {

@@ -2,10 +2,13 @@
   "name": "twitter-client",
   "version": "2.0.0",
   "description": "",
-  "main": "servidor.js",
+  "main": "src/index.js",
+  "files":[
+    "/src"
+  ],
   "scripts": {
-    "start": "node servidor.js",
-    "test": "node prueba.js",
+    "start": "node index.js",
+    "test": "node src/prueba.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },

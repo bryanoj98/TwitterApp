@@ -68,7 +68,7 @@ function genSortedParamStr(params, key, token, timestamp, nonce)  {
 function getAuthorization(httpMethod, baseUrl, reqParams) {
   // Get acces keys
 
-  let keysJson = require("./config.js");
+  let keysJson = require("../config/config.js");
   var btoa = require("btoa");
 
   const consumerKey = keysJson.consumer_key,

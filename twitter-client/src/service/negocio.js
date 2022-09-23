@@ -1,5 +1,5 @@
 const Twitter = require("twitter");
-const config = require("./config.js");
+const config = require("../config/config.js");
 const co = require("co");
 const T = new Twitter(config);
 
