@@ -1,12 +1,12 @@
 const express = require('express')
 const app = express()
 const path = require('path')
-const body_parser = require('body-parser')
-app.use(body_parser.json())
-app.use(body_parser.urlencoded({ extended: true }))
+const bodyParser = require('body-parser')
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 const request = require('request')
 const cookieSession = require('cookie-session')
-const router_login = require('./routes/routes')
+const routerLogin = require('./routes/routes')
 const Oauth1 = require('./util/Oauth1')
 
 app.use(
@@ -51,7 +51,7 @@ app.get('/Authenticate', function (req, res) {
   request(options, function (error, response) {
     if (error) throw new Error(error)
     console.log(response.body)
-    if (response.statusCode == 200) {
+    if (response.statusCode === 200) {
       const formBuildID = response.body.split('&')
       console.log(formBuildID)
       console.log('https://api.twitter.com/oauth/authorize?' + formBuildID[0])
@@ -75,7 +75,8 @@ app.get('/login', function (req, res, next) { // paso3
     }
 
     request(AccessToken, function (error, response) {
-      if (response.statusCode == 200) {
+      if (error) throw new Error(error)
+      if (response.statusCode === 200) {
         const separadores = ['&', '=']
         const textoseparado = response.body.split(
           new RegExp(separadores.join('|'), 'g')
@@ -101,7 +102,7 @@ app.get('/home', function (req, res, next) {
     res.redirect('/')
   }
 })
-app.use('/home', router_login) // PARA USAR ROUTER
+app.use('/home', routerLogin) // PARA USAR ROUTER
 
 app.get('/public*', function (req, res) {
   res.sendFile(path.join(__dirname, '/public/' + req.params[0]))

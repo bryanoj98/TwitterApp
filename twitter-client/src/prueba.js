@@ -1,28 +1,24 @@
 const express = require('express')
 const app = express()
 const path = require('path')
-const body_parser = require('body-parser')
-app.use(body_parser.json())
-app.use(body_parser.urlencoded({ extended: true }))
-const request = require('request')
+const bodyParser = require('body-parser')
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
-const tweet = require('./service/negocio_test.js')
+const tweet = require('./service/negocio.js')
 
-const Twitter = require('twitter') // BORRRRRAAR
-const config = require('./config/config_test.js') // BORRRRRAAR
-const T = new Twitter(config) // BORRRRRAAR
+const config = require('./config/config_test.js')
 
-// tweet.Nosiguen("borrar", function (error, data) {
-//   if (error) console.error(error);
-//   console.error(data);
-// });
+const userId = {
+  access_token_key: config.access_token_key,
+  access_token_secret: config.access_token_secret
+}
 
 app.get('/', function (req, res) {
   console.log('Principal Prueba')
   // res.sendFile(path.join(__dirname, "./views/cliente.html"));
   res.sendFile(path.join(__dirname, './views/Usuario_a.html'))
 })
-/// /////////////////////////////////////////////
 
 app.get('/public*', function (req, res) {
   res.sendFile(path.join(__dirname, '/public/' + req.params[0]))
@@ -35,7 +31,7 @@ app.post('/home/Seguidores', function (req, res) {
   // console.log(req.body.Page);
   // console.log(req.session.user_id);
 
-  tweet.Seguidores(req.body.Page, 'req.session.user_id', function (error, data) {
+  tweet.Seguidores(req.body.Page, userId, function (error, data) {
     if (error) console.error(error)
     else {
       // var ls=data;
@@ -47,7 +43,7 @@ app.post('/home/Seguidores', function (req, res) {
 app.post('/home/Seguidos', function (req, res) {
   console.log(req.body.Page)
 
-  tweet.Seguidos(req.body.Page, 'req.session.user_id', function (error, data) {
+  tweet.Seguidos(req.body.Page, userId, function (error, data) {
     if (error) console.error(error)
     else {
       // var ls=data;
@@ -58,7 +54,7 @@ app.post('/home/Seguidos', function (req, res) {
 })
 app.post('/home/Nosiguen', function (req, res) {
   console.log(req.body.Page)
-  tweet.Nosiguen(req.body.Page, 'req.session.user_id', function (error, data) {
+  tweet.Nosiguen(req.body.Page, userId, function (error, data) {
     if (error) console.error(error)
     else {
       // var ls=data;
@@ -70,7 +66,7 @@ app.post('/home/Nosiguen', function (req, res) {
 app.post('/home/NoFollow', function (req, res) {
   console.log('NoFollow')
   console.log(req.body.Id)
-  tweet.Unfollower('req.session.user_id', req.body.Id, function (error, data) {
+  tweet.Unfollower(userId, req.body.Id, function (error, data) {
     if (error) console.error(error)
     else {
       const ls = data

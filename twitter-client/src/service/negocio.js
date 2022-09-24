@@ -5,12 +5,12 @@ const T = new Twitter(config)
 
 function ObjetoUsuario () {
   class Usuario {
-    constructor (Id, Username, Aname, Imagen, followed_by) {
+    constructor (Id, Username, Aname, Imagen, followedBy) {
       this.Id = Id
       this.Username = Username
       this.Aname = Aname
       this.Imagen = Imagen
-      this.followed_by = followed_by
+      this.followed_by = followedBy
     }
   }
   return new Usuario()
@@ -25,39 +25,39 @@ function ObjetoPagina (Anterior, Siguiente) {
 
   return new Pagina(Anterior, Siguiente)
 }
-function ObjetoRateLimit (limit_seguidos, limit_seguidores) {
+function ObjetoRateLimit (limiteSeguidos, limiteSeguidores) {
   class RateLimit {
-    constructor (limit_seguidos, limit_seguidores) {
-      this.limite_seguidos = limit_seguidos
-      this.limite_seguidores = limit_seguidores
+    constructor (limiteSeguidos, limiteSeguidores) {
+      this.limiteSeguidos = limiteSeguidos
+      this.limiteSeguidores = limiteSeguidores
     }
   }
 
-  return new RateLimit(limit_seguidos, limit_seguidores)
+  return new RateLimit(limiteSeguidos, limiteSeguidores)
 }
-function Rate_limit (callback) { // Nose si poner user_id, por que es limite es de la aplicacion
+function Rate_limit (callback) { // Nose si poner userId, por que es limite es de la aplicacion
   console.log('Entro Rate')
-  const params_rate = {
+  const params = {
     resources: 'followers,friends',
     skip_status: 1
   }
 
-  T.get('application/rate_limit_status', params_rate, (err, data, response) => {
+  T.get('application/rate_limit_status', params, (err, data, response) => {
     if (err) {
       return console.log(err)
     }
-    const limit_seguidores = data.resources.followers['/followers/list'].remaining
-    const limit_seguidos = data.resources.friends['/friends/list'].remaining
+    const limiteSeguidores = data.resources.followers['/followers/list'].remaining
+    const limiteSeguidos = data.resources.friends['/friends/list'].remaining
     console.log('valores Rate: ')
-    const rate = ObjetoRateLimit(limit_seguidos, limit_seguidores)
+    const rate = ObjetoRateLimit(limiteSeguidos, limiteSeguidores)
     callback(null, rate)
   })
 }
 
 // QUIENES ME SIGUEN
-function Seguidores (page, user_id, callback) {
-  T.options.request_options.oauth.token = user_id.access_token_key
-  T.options.request_options.oauth.token_secret = user_id.access_token_secret
+exports.Seguidores = function (page, userId, callback) {
+  T.options.request_options.oauth.token = userId.access_token_key
+  T.options.request_options.oauth.token_secret = userId.access_token_secret
 
   const params = {
     cursor: page,
@@ -96,20 +96,19 @@ function Seguidores (page, user_id, callback) {
     callback(null, ListaUsers)
   })
 }
-function Seguidos_n (page, user_id, callback, n_users) {
+function Seguidos_n (page, userId, callback, numberUsers) {
   // AQUIENES YO SIGO
-  T.options.request_options.oauth.token = user_id.access_token_key
-  T.options.request_options.oauth.token_secret = user_id.access_token_secret
+  T.options.request_options.oauth.token = userId.access_token_key
+  T.options.request_options.oauth.token_secret = userId.access_token_secret
   const params = {
     cursor: page,
     include_followed_by: 1,
     skip_status: 1,
-    count: n_users
+    count: numberUsers
   }
   console.log('AQUIENES YO SIGO')
 
-  console.log('Loque hay en page')
-  console.log(page)
+  console.log('Page: ', page)
   T.get('friends/list', params, (err, data, response) => {
     if (err) {
       return console.log(err) // PONER RATE_LIMIT SI ERROR
@@ -144,43 +143,43 @@ function thunkRate () {
     Rate_limit(callback)
   }
 }
-function Seguidos (page, user_id, callback) {
-  return Seguidos_n(page, user_id, callback, 20)
+function Seguidos (page, userId, callback) {
+  return Seguidos_n(page, userId, callback, 20)
 }
-function thunkSeguidores (value, user_id) { // Modificar nombre value por pagina (mas descriptivo)
+function thunkSeguidores (value, userId) { // Modificar nombre value por pagina (mas descriptivo)
   return function (callback) {
-    Seguidores(value, user_id, callback)
+    Seguidores(value, userId, callback)
   }
 }
-function thunkSeguidos (page, user_id, n_users) { // Modificar nombre value por pagina (mas descriptivo)
+function thunkSeguidos (page, userId, numberUsers) { // Modificar nombre value por pagina (mas descriptivo)
   return function (callback) {
-    Seguidos_n(page, user_id, callback, n_users)
+    Seguidos_n(page, userId, callback, numberUsers)
   }
 }
 
-function Nosiguen (page, user_id, callback) { // Devolver tiempo de esperar de rate_limit?
+exports.Nosiguen = function (page, userId, callback) { // Devolver tiempo de esperar de rate_limit?
   console.log('entra no me siguen /hay en page:')
 
   console.log(page)
-  const tem_page = page
-  T.options.request_options.oauth.token = user_id.access_token_key
-  T.options.request_options.oauth.token_secret = user_id.access_token_secret
+  const tmpPage = page
+  T.options.request_options.oauth.token = userId.access_token_key
+  T.options.request_options.oauth.token_secret = userId.access_token_secret
   co(function * () {
     let Antersigo = 1
-    let Pagsigo = tem_page
+    let Pagsigo = tmpPage
     console.log('Pagsigo= ')
 
     console.log(Pagsigo)
     const ListaUsers = []
     let rate = yield thunkRate()
     console.log(rate)
-    while (ListaUsers.length < 10 && rate.limite_seguidos > 1 && Pagsigo != 0) {
-      const sigo = yield thunkSeguidos(Pagsigo, user_id, 200)
+    while (ListaUsers.length < 10 && rate.limiteSeguidos > 1 && Pagsigo !== 0) {
+      const sigo = yield thunkSeguidos(Pagsigo, userId, 200)
       Pagsigo = sigo[sigo.length - 1].Siguiente
       Antersigo = sigo[sigo.length - 1].Anterior
 
       sigo.forEach(function (valor) {
-        if (valor.followed_by == false) ListaUsers.push(valor)
+        if (valor.followed_by === false) ListaUsers.push(valor)
       })
 
       ListaUsers.forEach(function (valor) { // Solo para mostrar
@@ -200,16 +199,14 @@ function Nosiguen (page, user_id, callback) { // Devolver tiempo de esperar de r
     callback(null, ListaUsers)
   })
 }
-
-function Unfollower (user_id, id, callback) {
-  T.options.request_options.oauth.token = user_id.access_token_key
-  T.options.request_options.oauth.token_secret = user_id.access_token_secret
+exports.Unfollower = function (userId, id, callback) {
+  T.options.request_options.oauth.token = userId.access_token_key
+  T.options.request_options.oauth.token_secret = userId.access_token_secret
   const params = {
     screen_name: id
   }
-  console.log('LLego este id')
+  console.log('LLego este id: ', id)
 
-  console.log(id)
   // callback(null, id);
   // DESCOMENTAR SI O SI
 
@@ -222,18 +219,8 @@ function Unfollower (user_id, id, callback) {
       console.log(response.screen_name + ' Eliminado')
       callback(null, response.screen_name)
     }
-    // const respu = response.status;
-    // if (respu != null) {
-    //   // console.log(' Eliminado')
-    //   console.log(id + " Eliminado");
-    //   callback(null, id);
-    // }
-    // console.log(response.screen_name + " Eliminado");
   })
 }
 exports.ObjetoUsuario = ObjetoUsuario
 exports.ObjetoPagina = ObjetoPagina
 exports.Seguidos = Seguidos
-exports.Seguidores = Seguidores
-exports.Nosiguen = Nosiguen
-exports.Unfollower = Unfollower
